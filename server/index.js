@@ -5,12 +5,13 @@
 process.env.NODE_PATH = 'app';
 require('module').Module._initPaths();
 
+require('../common/globals');
+require('./globals');
+
 // Install `babel` hook for ES6
 require('babel/register')({
   stage: 1
 });
-
-require('./globals');
 
 module.exports = $q.props({
   http: require('./koa'),

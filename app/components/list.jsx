@@ -6,7 +6,7 @@ import Item from './item';
 
 const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/list.less');
 }
 

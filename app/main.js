@@ -8,7 +8,7 @@ import ProjectActions from 'actions/project';
 
 const routes = require('routes');
 
-if (process.env.NODE_ENV === 'development') {
+if (__DEBUG) {
   require('debug').enable('*');
 }
 

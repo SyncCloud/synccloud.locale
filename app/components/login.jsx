@@ -6,7 +6,7 @@ import UserActions from 'actions/user';
 import ListenerMixin from 'alt/mixins/ListenerMixin';
 import {Panel, Input, ButtonInput} from 'react-bootstrap';
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/login.less');
 }
 

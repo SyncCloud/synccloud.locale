@@ -6,16 +6,20 @@ export default React.createClass({
   render() {
     const {
       html,
-      readonly
+      readOnly,
+      preventEnter,
+      ...other
     } = this.props;
     const fontSize = this._calcFontSize(html.length);
     const lineHeight = this._calcLineHeight(fontSize) + 'px';
+
     return <div
-      {...this.props}
+      {...other}
       style={{fontSize, lineHeight}}
       onInput={this.emitChange}
       onBlur={this.emitChange}
-      contentEditable={!this.props.readonly}
+      onKeyPress={this._onKeyPress}
+      contentEditable={!readOnly}
       dangerouslySetInnerHTML={{__html: this.props.html}}></div>;
   },
   _calcFontSize(length) {
@@ -32,11 +36,16 @@ export default React.createClass({
       return fontSize*1.5;
     }
   },
+  _onKeyPress(e) {
+    if (e.key == 'Enter' && this.props.preventEnter) {
+      e.preventDefault()
+    }
+  },
   _updateFontSize(length) {
     const fontSize = this._calcFontSize(length);
-    const dom =this.getDOMNode();
-    const $dom = $(dom);
-    $dom.css({fontSize, lineHeight: this._calcLineHeight(fontSize)+'px'});
+    const root = this.getDOMNode();
+    root.style.fontSize = fontSize + 'px';
+    root.style.lineHeight = this._calcLineHeight(fontSize) + 'px';
   },
 
   shouldComponentUpdate(nextProps) {
@@ -52,7 +61,8 @@ export default React.createClass({
   emitChange() {
     var html = React.findDOMNode(this).innerHTML;
     if (this.props.onChange && html !== this.lastHtml) {
-      const text = $.trim($(React.findDOMNode(this)).text());
+      const root = React.findDOMNode(this);
+      const text = (root.innerText || root.textContent).trim();
       this._updateFontSize(text.length);
       this.props.onChange(html, text);
     }

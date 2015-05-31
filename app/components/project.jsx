@@ -9,7 +9,7 @@ import Icon from './icon';
 import ItemsList from './list';
 import cx from 'react/lib/cx';
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/project.less');
 }
 

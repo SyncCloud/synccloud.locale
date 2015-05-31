@@ -3,7 +3,7 @@
 import debug from 'debug';
 
 export default (imagePath) => {
-  if (process.env.BROWSER) {
+  if (__BROWSER) {
     debug('dev')('`image-resolver` should not be used in browser, something went wrong');
     throw new Error('image-resolver called on browser');
   }
@@ -12,7 +12,7 @@ export default (imagePath) => {
     // don't cache the `webpack-stats.json` on dev
     // so we gonna read the file on each request
     let images;
-    if (process.env.NODE_ENV === 'development') {
+    if (__DEBUG) {
       const fs = require('fs');
       const path = require('path');
       images = fs.readFileSync(path.resolve(__dirname, '../../server/webpack-stats.json'));

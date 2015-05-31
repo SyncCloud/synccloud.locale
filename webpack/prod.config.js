@@ -45,9 +45,11 @@ module.exports = {
         loader: 'url?limit=10000&name=[sha512:hash:base64:7].[ext]!image?optimizationLevel=7&progressive&interlaced'
       },
       {
+        // the optional 'runtime' transformer tells babel to require the runtime
+        // instead of inlining it.
         test: /\.js$|.jsx$/,
         exclude: /node_modules/,
-        loader: 'babel?optional[]=runtime&stage=0'
+        loader: 'babel?optional[]=runtime&stage=1'
       },
       {
         test: /\.less/,
@@ -62,10 +64,8 @@ module.exports = {
 
     // set env
     new webpack.DefinePlugin({
-      'process.env': {
-        BROWSER: JSON.stringify(true),
-        NODE_ENV: JSON.stringify('production')
-      }
+      __BROWSER: JSON.stringify(true),
+      __DEBUG: JSON.stringify(false)
     }),
     new webpack.ProvidePlugin({
       '_': 'lodash',

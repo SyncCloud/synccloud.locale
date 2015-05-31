@@ -5,7 +5,7 @@ import UserStore from 'stores/user';
 
 import cx from 'react/lib/cx';
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/usermenu.less');
 }
 

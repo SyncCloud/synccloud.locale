@@ -66,9 +66,11 @@ export default {
         { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
         { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
         {
+          // the optional 'runtime' transformer tells babel to require the runtime
+          // instead of inlining it.
           test: /\.js$|.jsx$/,
           exclude: /node_modules/,
-          loaders: ['react-hot', 'babel?optional[]=runtime&stage=0']
+          loaders: ['react-hot', 'babel?optional[]=runtime&stage=1']
         },
         {
           test: /\.less/,
@@ -83,14 +85,8 @@ export default {
       new webpack.NoErrorsPlugin(),
 
       new webpack.DefinePlugin({
-        'process.env': {
-          BROWSER: JSON.stringify(true),
-          NODE_ENV: JSON.stringify('development')
-        }
-      }),
-      new webpack.ProvidePlugin({
-        '_': 'lodash',
-        'moment': 'moment'
+        __BROWSER: JSON.stringify(true),
+        __DEBUG: JSON.stringify(true)
       }),
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.OccurenceOrderPlugin(),

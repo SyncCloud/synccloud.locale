@@ -5,7 +5,7 @@ import cx from 'react/lib/cx';
 
 const PropTypes = React.PropTypes;
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/icon/material-design-iconic-font.less');
 }
 

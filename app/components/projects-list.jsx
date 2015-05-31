@@ -8,7 +8,7 @@ import Router from 'react-router';
 
 import cx from 'react/lib/cx';
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/projects-list.less');
 }
 

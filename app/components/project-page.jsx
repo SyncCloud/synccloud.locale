@@ -5,7 +5,7 @@ import UserMenu from './usermenu';
 import ProjectsList from './projects-list';
 import Project from './project';
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/project-page.less');
 }
 

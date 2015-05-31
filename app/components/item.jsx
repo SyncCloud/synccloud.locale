@@ -7,7 +7,7 @@ import ItemActions from 'actions/item';
 import ProjectStore from 'stores/project';
 import Editable from './editable';
 
-if (process.env.BROWSER) {
+if (__BROWSER) {
   require('styles/item.less');
 }
 
@@ -51,7 +51,7 @@ let TranslateField = React.createClass({
       <div className={cx({item__tr: true, item__tr_key_true: isKey})}>
         <div className='item__tr-locale'>{locale}</div>
         <div className="item__tr-field">
-              <Editable className="item__tr-input" readonly={isKey} html={value} singleLine={true} onChange={this._onChange}
+              <Editable className="item__tr-input" readOnly={isKey} html={value} preventEnter={true} onChange={this._onChange}
                         placeholder='Abracadabra!'/>
           {date}
         </div>
@@ -73,7 +73,7 @@ export default React.createClass({
   _isTranslated() {
     return _.all(_.values(this.props.item.translations));
   },
-  _onKeyPress(e) {
+  _onKeyDown(e) {
     if (e.key == 'Enter') {
       ItemActions.updateItem(this.props.item);
       if (this._isTranslated() && this.props.onFinish) {
@@ -97,7 +97,7 @@ export default React.createClass({
     });
 
     return (
-      <div className={cx('item', this.props.className)} onKeyPress={this._onKeyPress}>
+      <div className={cx('item', this.props.className)} onKeyDown={this._onKeyDown}>
         {entries}
       </div>
     )
