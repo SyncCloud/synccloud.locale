@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+  body
+    nav
+      each p in projects
+        a(href='/project/'+p)=p
+    h1=project
+    section
+      ul
+        each item in items
+          li=JSON.stringify(item)

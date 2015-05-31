@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    each asset in assets.style
+      link(href=asset, rel='stylesheet')
+    link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css', rel='stylesheet')
+    link(href='//fonts.googleapis.com/css?family=Roboto:400italic,600italic,200italic,300italic,400,600,200,300,700,800', rel='stylesheet', type='text/css')
+    script(src='http://code.jquery.com/jquery-2.1.4.min.js')
+    title=title
+  body
+    block content
+    each script in assets.script
+      script(src=script)

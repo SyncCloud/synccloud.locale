@@ -1,0 +1,50 @@
+@import './mixins';
+
+.project {
+  width: 760px;
+  height: 100%;
+  padding-top: 64px;
+  position: relative;
+
+  &__top {
+    margin-bottom: 24px;
+    position: relative;
+  }
+  &__search {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-bottom: 1px solid #D7DFE4;
+    width: 240px;
+    padding-bottom: 4px;
+    &-clear {
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+      &:hover {
+        color: #00B7EE;
+      }
+    }
+    &-input {
+      .clean-input-style();
+      .placeholder(#C4CFD5);
+      width: 100%;
+      font-size: 12px;
+      color: #21262F;
+      padding-right: 16px;
+    }
+  }
+
+  &__list-count {
+    font-size: 48px;
+    font-weight: 200;
+    line-height: 60px;
+    color: #ACB6C2;
+  }
+  &__list {
+    position: absolute;
+    top: 140px;
+    width: 100%;
+    bottom: 0;
+  }
+}

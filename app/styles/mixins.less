@@ -1,0 +1,35 @@
+.clean-input-style() {
+  border: none;
+  outline: none;
+  color: inherit;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+.placeholder(@color, @opacity:.7, @font-size: auto) {
+  &:-moz-placeholder {
+    color: @color;
+    opacity: @opacity;
+    font-size: @font-size;
+  }
+  // Firefox 4-18
+  &::-moz-placeholder {
+    color: @color;
+    opacity: @opacity;
+    font-size: @font-size;
+  }
+  // Firefox 19+
+  &:-ms-input-placeholder {
+    color: @color;
+    opacity: @opacity;
+    font-size: @font-size;
+  }
+  // Internet Explorer 10+
+  &::-webkit-input-placeholder {
+    color: @color;
+    opacity: @opacity;
+    font-size: @font-size;
+  }
+  // Safari and Chrome
+}
+

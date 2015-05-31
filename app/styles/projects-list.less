@@ -1,0 +1,46 @@
+.projects-list {
+  text-align: right;
+
+  &__header {
+    font-size: 20px;
+    margin-right: 16px;
+  }
+
+  &__nav {
+    margin-top: 32px;
+  }
+
+  &__nav-item {
+    color: #21262F;
+    cursor: pointer;
+    padding-right: 14px;
+    border-right: 2px solid transparent;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 8px;
+    &-count {
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      display: inline-block;
+      margin-right: 12px;
+      font-size: 12px;
+      border-radius: 50%;
+      background: #D8DFE6;
+      color: #21262F;
+    }
+
+    &_empty_true {
+      color: #ACB6C2;
+    }
+    &_empty_true &-count {
+      display: none;
+    }
+    &_active_true {
+      color: #00B7EE;
+      border-color: #00B7EE;
+    }
+  }
+}
