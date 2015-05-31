@@ -6,6 +6,7 @@
   margin: 0;
   padding: 0;
 }
+
 .placeholder(@color, @opacity:.7, @font-size: auto) {
   &:-moz-placeholder {
     color: @color;
@@ -33,3 +34,42 @@
   // Safari and Chrome
 }
 
+.scrollbar(@color, @size: 6px) {
+  &::-webkit-scrollbar {
+    height: @size;
+    overflow: visible;
+    width: @size;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    border: none;
+    border-radius: 2px;
+    min-height: 28px;
+    padding: 100px 0 0;
+    background-color: @color;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    border-color: darken(@color, 14%);
+    background-color: darken(@color, 5%);
+  }
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-clip: padding-box;
+    border: solid transparent;
+  }
+
+  scrollbar-face-color: @color;
+  scrollbar-highlight-color: #fff;
+  scrollbar-3dlight-color: darken(@color, 10%);
+  scrollbar-darkshadow-color: #fff;
+  scrollbar-shadow-color: transparent;
+  scrollbar-arrow-color: white;
+  scrollbar-track-color: transparent;
+}
