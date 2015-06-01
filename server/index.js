@@ -13,7 +13,9 @@ require('babel/register')({
   stage: 1
 });
 
+var co = require('co');
+
 module.exports = $q.props({
-  http: require('./koa'),
-  mongo: require('./db')
+  http: co(require('./koa')),
+  mongo: co(require('./db'))
 });

@@ -4,28 +4,33 @@ import koa from 'koa';
 import mount from 'koa-mount';
 import config from './config/index';
 import co from 'co';
+import debug from 'debug';
 
 const app = koa();
 const env = process.env.NODE_ENV || 'development';
+const log = debug('synccloud:locale:http');
 
-app.use(require('./middlewares/error-handler'));
-if (env == 'development') {
-  app.use(require('koa-logger')())
-}
+export default function *() {
+  app.use(require('./middlewares/error-handler'));
 
-app.use(mount('/api', require('./koa-api')));
-app.use(mount(require('./koa-ui')));
+  if (env == 'development') {
+    app.use(require('koa-logger')())
+  }
 
-app.on('error', function(err){
-  log.error('server error', err);
-});
+  app.use(mount('/api', yield require('./koa-api')));
+  app.use(mount(yield require('./koa-ui')));
 
-app.keys = config.keys;
+  app.on('error', function(err) {
+    console.error(err.stack);
+  });
 
-app.listen(config.port);
-console.log(`Application started on port ${config.port}`);
-if (process.send) {
-  process.send('online');
-}
+  app.keys = config.keys;
 
-export default app;
+  app.listen(config.port);
+  log(`Application started on port ${config.port}`);
+  if (process.send) {
+    process.send('online');
+  }
+
+  return app;
+};

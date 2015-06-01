@@ -5,9 +5,11 @@ import alt from 'utils/alt';
 class ItemActions {
   updateItem(data) {
     const request = {};
+
     for (let [locale, {value}] of Object.entries(data.translations)) {
       request[locale] = value;
     }
+
     $.ajax({
       method: 'POST',
       url: `/translate/${data.id}`,
