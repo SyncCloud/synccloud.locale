@@ -17,7 +17,6 @@
     "co": "^4.5.4",
     "debug": "^2.2.0",
     "iso": "^4.1.0",
-    "jquery": "^2.1.4",
     "koa": "^0.20.0",
     "koa-basic-auth": "^1.1.2",
     "koa-bodyparser": "^2.0.0",
@@ -31,8 +30,6 @@
     "koa-passport": "^1.1.6",
     "koa-response-time": "^1.0.2",
     "koa-route": "^2.4.1",
-    "koa-sess": "^0.4.1",
-    "koa-session": "^3.1.0",
     "koa-static-cache": "^3.1.1",
     "lodash": "^3.8.0",
     "moment": "^2.10.3",
@@ -42,8 +39,7 @@
     "react-bootstrap": "^0.22.4",
     "react-router": "^0.13.3",
     "request": "^2.56.0",
-    "superagent": "^1.2.0",
-    "thunkify": "^2.1.2"
+    "superagent": "^1.2.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
@@ -56,8 +52,6 @@
     "extract-text-webpack-plugin": "^0.8.0",
     "file-loader": "^0.8.1",
     "ghooks": "^0.3.2",
-    "gulp": "^3.8.11",
-    "gulp-nodemon": "^2.0.3",
     "image-webpack-loader": "^1.4.0",
     "imagemin": "^3.2.0",
     "json-loader": "^0.5.1",
