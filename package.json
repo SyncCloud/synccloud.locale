@@ -12,6 +12,7 @@
   "dependencies": {
     "alt": "^0.16.5",
     "babel-runtime": "^5.4.7",
+    "babel-core": "^5.4.3",
     "basic-auth": "^1.0.1",
     "bluebird": "^2.9.25",
     "co": "^4.5.4",
@@ -44,7 +45,6 @@
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
-    "babel-core": "^5.4.3",
     "babel-loader": "^5.1.2",
     "browser-sync": "^2.7.1",
     "chakram": "^0.1.1",
