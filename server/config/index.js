@@ -1,3 +1,5 @@
+"use strict";
+
 import nconf from 'nconf';
 
 const env = process.env;

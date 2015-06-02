@@ -7,4 +7,5 @@ dist
 .DS_Store
 .sass-cache
 .env
+build
 server/webpack-stats.json

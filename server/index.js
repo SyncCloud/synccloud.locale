@@ -9,7 +9,7 @@ require('../common/globals');
 require('./globals');
 
 // Install `babel` hook for ES6
-require('babel/register')({
+require('babel-core/register')({
   stage: 1
 });
 
