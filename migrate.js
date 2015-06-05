@@ -2,9 +2,10 @@
 var url = require('url');
 var $q = require('bluebird');
 var request = $q.promisify(require('request'));
-var OLD_PROJECT_URL = 'http://54.77.244.127/';
+var OLD_PROJECT_URL = 'http://54.77.244.127:8081/';
 var PROJECT_NAME = 'SyncCloud.Frontend';
-var NEW_PROJECT_URL = 'http://neo:matrix@localhost:3000/';
+var NEW_PROJECT_NAME = 'synccloud-frontend';
+var NEW_PROJECT_URL = 'http://nick:123123@54.77.244.127/';
 var co = require('co');
 var _ = require('lodash');
 
@@ -22,7 +23,7 @@ co(function *() {
 
   //get items
   var [resp, body] = yield request({
-    url: url.resolve(NEW_PROJECT_URL, '/api/items/'+PROJECT_NAME),
+    url: url.resolve(NEW_PROJECT_URL, '/api/items/'+NEW_PROJECT_NAME),
     json: true
   });
 

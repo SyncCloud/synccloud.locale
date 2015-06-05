@@ -7,7 +7,7 @@ repo=quay.io/ndelitski
 remote_host=54.77.244.127
 remote_key=~/Drive/tools.pem
 remote_user=ec2-user
-
+remote_path=/home/ec2-user
 #
 # Output usage information.
 #
@@ -41,7 +41,7 @@ build_project() {
 #
 
 ssh_command() {
-  local url="#{remote_user}@${remote_host}"
+  local url="${remote_user}@${remote_host}"
   local key=$remote_key
   test -n "$key" && local identity="-i $key"
   test -n "$port" && local port="-p $port"
@@ -54,7 +54,7 @@ ssh_command() {
 
 remote_run() {
   local shell="`ssh_command`"
-  echo $shell "\"$@\"" >> $LOG
+  echo $shell "\"$@\""
   $shell $@
 }
 
@@ -84,7 +84,7 @@ deploy_docker() {
 #
 
 update_remote() {
-  remote_run "sudo sh /ec2-user/home/env.sh update"
+  remote_run "sh env.sh update"
 }
 
 #
@@ -108,14 +108,15 @@ deploy_local() {
 #
 
 deploy_remote() {
-  build_project
-  deploy_docker
-  copy_to_remote ./env.sh /ec2-user/home/env.sh
+  # build_project
+  # deploy_docker
+  # copy_to_remote ./env.sh /ec2-user/home/env.sh
   update_remote
 }
 
 case $1 in
   -h|--help) usage; exit;;
+  run|exec) remote_run "cd $remote_path && ${@:2}"; exit ;;
   remote) deploy_remote; exit;;
   local) deploy_local; exit;;
   *) usage; exit 1;;

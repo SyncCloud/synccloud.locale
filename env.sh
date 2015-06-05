@@ -7,15 +7,15 @@ instance_id=$(/opt/aws/bin/ec2-metadata --instance-id | cut -c14-)
 
 run_app() {
 	docker run -d -p 80:80 \
-	   --link mongodb:mongodb \
-           -e DEBUG=synccloud* \
-	   -e MONGO_HOST=mongodb \
-	   --name $container_name \
-	   $image_name /sbin/my_init --
+		--link mongodb:mongodb \
+		-e DEBUG=synccloud* \
+		-e MONGO_HOST=mongodb \
+		--name $container_name \
+		$image_name /sbin/my_init --
 }
 
 case "$1" in
-    start)
+		start)
 		yum install -y docker
 		service docker start
 
