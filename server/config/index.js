@@ -34,7 +34,7 @@ const unwrapNconf = function (...props) {
 
 let mongoUrl = env.MONGO;
 if (!mongoUrl) {
-  mongoUrl = `mongodb://${env.MONGO_HOST || 'localhost'}:${env.MONGO_PORT || 27017}/${env.MONGO_DB || 'locale'}}`;
+  mongoUrl = `mongodb://${env.MONGO_HOST || 'localhost'}:${env.MONGO_PORT || 27017}/${env.MONGO_DB || 'locale'}`;
 }
 
 nconf
