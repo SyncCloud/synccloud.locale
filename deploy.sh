@@ -93,8 +93,9 @@ update_remote() {
 
 deploy_local() {
   build_project
-  docker kill $container &>/dev/null
-  docker rm $container &>/dev/null
+  docker build --rm -t $image ./build
+  docker kill $container
+  docker rm $container
   docker run \
     -d -p 3060:80 \
     -e PORT=80 \

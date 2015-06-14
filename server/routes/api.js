@@ -61,14 +61,14 @@ function *fillProject() {
 }
 
 function *getItemsByProject() {
-  this.body = yield ItemModel.find({project: this.params.project}, 'translations')
+  this.body = yield ItemModel.find({project: this.params.project}, 'translations key keyLocale')
     .then((items) => {
       return items.map((item) => {
         const tr = item.translations;
         for (let key of Object.keys(tr)) {
           tr[key] = tr[key] && tr[key].value;
         }
-        return {id: item._id, translations: tr};
+        return {id: item._id, key: item.key, keyLocale: item.keyLocale, translations: tr};
       })
     });
 }
