@@ -65,6 +65,7 @@ remote_run() {
 copy_to_remote() {
   local local_path=$1
   local remote_path=$2
+  local key=$remote_key
   test -n "$key" && local identity="-i $key"
   scp $identity $local_path $remote_user@$remote_host:$remote_path
 }
@@ -109,9 +110,9 @@ deploy_local() {
 #
 
 deploy_remote() {
-  # build_project
-  # deploy_docker
-  # copy_to_remote ./env.sh /ec2-user/home/env.sh
+  build_project
+  deploy_docker
+  copy_to_remote ./env.sh /home/ec2-user/env.sh
   update_remote
 }
 
