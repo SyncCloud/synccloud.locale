@@ -6,12 +6,13 @@ vol_id=vol-2db1ef2a
 instance_id=$(/opt/aws/bin/ec2-metadata --instance-id | cut -c14-)
 
 run_app() {
+  echo $1
 	docker run -d -p 80:80 \
 		--link mongodb:mongodb \
 		-e DEBUG=synccloud* \
 		-e MONGO_HOST=mongodb \
 		--name $container_name \
-		$image_name /sbin/my_init --
+		$image_name:${1:-latest} /sbin/my_init --
 }
 
 case "$1" in
@@ -38,8 +39,9 @@ case "$1" in
 	update)
 		docker kill $container_name
 		docker rm $container_name
-		docker pull $image_name
-		run_app
+    version=${2:-latest}
+		docker pull $image_name:$version
+		run_app $version
 		;;
 esac
 

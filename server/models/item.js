@@ -58,6 +58,7 @@ ItemSchema.pre('save', function (next) {
         }
         yield $q.all(activities)
           .map((a) => {
+            log('save activity ', a.toJSON());
             return a.save();
           });
       }

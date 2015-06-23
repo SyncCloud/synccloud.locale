@@ -87,7 +87,7 @@ deploy_docker() {
 #
 
 update_remote() {
-  remote_run "sh env.sh update"
+  remote_run "sh env.sh update $version"
 }
 
 #
@@ -112,8 +112,8 @@ deploy_local() {
 #
 
 deploy_remote() {
-  build_project
-  deploy_docker
+  # build_project
+  # deploy_docker
   copy_to_remote ./env.sh /home/ec2-user/env.sh
   update_remote
 }
