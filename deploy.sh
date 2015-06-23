@@ -4,10 +4,12 @@ set -e
 image=synccloud-locale
 container=locale
 repo=quay.io/ndelitski
+version=$(cat package.json | grep 'version' | sed -E 's/[^0-9\.]//g')
 remote_host=54.77.244.127
 remote_key=~/Drive/tools.pem
 remote_user=ec2-user
 remote_path=/home/ec2-user
+
 #
 # Output usage information.
 #
@@ -76,7 +78,7 @@ copy_to_remote() {
 
 deploy_docker() {
   docker build --rm -t $image ./
-  docker tag $image $repo/$image:$version
+  docker tag -f $image $repo/$image:$version
   docker push $repo/$image:$version
 }
 
