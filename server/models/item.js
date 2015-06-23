@@ -58,7 +58,7 @@ ItemSchema.pre('save', function (next) {
         }
         yield $q.all(activities)
           .map((a) => {
-            return a.save().catch((err)=> {
+            return a.save().then(null, (err)=> {
               log('failed to save %j', a.toJSON(), err);
             });
           });
