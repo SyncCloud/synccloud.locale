@@ -5,7 +5,7 @@ import debug from 'debug';
 const log = debug('synccloud:locale:model:item');
 
 let ActivitySchema = new mongoose.Schema({
-  createdBy: String,
+  createdBy: Object,
   createdAt: Date,
   project: String,
   action: String,
