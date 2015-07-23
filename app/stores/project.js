@@ -50,8 +50,11 @@ class ProjectStore {
     _.assign(this._byId(data.id), data);
   }
 
-  onFinishItem(item) {
-
+  onDeleteItem({id}) {
+    this.itemsByProject[this.activeProject] = this.itemsByProject[this.activeProject].filter((i) => {return i.id !== id});
+    this.setState({
+      items: this.items.filter((i) => {return i.id !== id})
+    });
   }
 
   onChangeProject({projectName}) {

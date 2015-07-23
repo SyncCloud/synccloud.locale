@@ -19,6 +19,14 @@ class ItemActions {
       this.dispatch(resp);
     });
   }
+  deleteItem({id}) {
+    $.ajax({
+      method: 'DELETE',
+      url: `/items/${id}`
+    }).done((resp) => {
+      this.dispatch({id});
+    });
+  }
 }
 
 export default alt.createActions(ItemActions);
