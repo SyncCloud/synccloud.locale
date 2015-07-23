@@ -12,6 +12,7 @@ const router = require('koa-router')();
 router.post('/items/:project', fillProject);
 router.get('/items/:project', getItemsByProject);
 router.put('/items/:id', updateItem);
+router.delete('/items/:id', deleteItem);
 
 /**
  * Fill database with keys
@@ -82,6 +83,17 @@ function *updateItem() {
   log('updating %s with %o', item.key, this.request.body);
   item = yield item.updateTranslations(this.user, _.pick(this.request.body, config.locales));
   this.body = item.toJSON();
+}
+
+function *deleteItem() {
+  let item = yield ItemModel.findById(this.params.id);
+  if (!item) {
+    this.throw('not_exists', 404);
+  }
+
+  log('deleting item %s', item.key);
+  yield item.remove();
+  this.body = {};
 }
 
 export default router;

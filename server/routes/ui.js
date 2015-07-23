@@ -10,6 +10,7 @@ const router = require('koa-router')();
 router.post('/login', login);
 router.get('/logout', logout);
 router.post('/translate/:id', updateItem);
+router.delete('/items/:id', deleteItem);
 
 function *login() {
   const ctx = this;
@@ -40,5 +41,15 @@ function *updateItem() {
   this.body = item.toJSON();
 }
 
+function *deleteItem() {
+  let item = yield ItemModel.findById(this.params.id);
+  if (!item) {
+    this.throw('not_exists', 404);
+  }
+
+  log('deleting item %s', item.key);
+  yield item.remove();
+  this.body = {};
+}
 
 export default router;

@@ -6,6 +6,7 @@ import ListenerMixin from 'alt/mixins/ListenerMixin';
 import ItemActions from 'actions/item';
 import ProjectStore from 'stores/project';
 import Editable from './editable';
+import Icon from './icon';
 
 if (__BROWSER) {
   require('styles/item.less');
@@ -85,6 +86,9 @@ export default React.createClass({
     const translations = this.props.item.translations;
     translations[locale]= {value, modifiedAt: new Date(), modifiedBy: {}}
   },
+  _onDeleteClick() {
+    ItemActions.deleteItem({id: this.props.item.id});
+  },
   render() {
     const item = this.props.item;
     const locales = ['en', 'ru'];
@@ -99,6 +103,7 @@ export default React.createClass({
     return (
       <div className={cx('item', this.props.className)} onKeyDown={this._onKeyDown}>
         {entries}
+        <Icon className='md-delete item__delete md-2x' onClick={this._onDeleteClick}/>
       </div>
     )
   }
