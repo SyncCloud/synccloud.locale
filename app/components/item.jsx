@@ -19,7 +19,9 @@ let TranslateField = React.createClass({
     translation: React.PropTypes.object.isRequired,
     locale: React.PropTypes.string.isRequired,
     isKey: React.PropTypes.bool,
-    onChange: React.PropTypes.func
+    onChange: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func
   },
   componentDidMount(){
     this.listenTo(ProjectStore, () => {
@@ -36,6 +38,16 @@ let TranslateField = React.createClass({
     this.setState({value: html});
     if (this.props.onChange) {
       this.props.onChange(this.props.locale, text);
+    }
+  },
+  _onFocus() {
+    if (this.props.onFocus) {
+      this.props.onFocus(this.props.locale);
+    }
+  },
+  _onBlur() {
+    if (this.props.onBlur) {
+      this.props.onBlur(this.props.locale);
     }
   },
   render() {
@@ -57,7 +69,10 @@ let TranslateField = React.createClass({
           {locale}
         </div>
         <div className="item__tr-field">
-              <Editable className="item__tr-input" readOnly={isKey} html={value} preventEnter={true} onChange={this._onChange}
+              <Editable className="item__tr-input" readOnly={isKey} html={value} preventEnter={true}
+                        onChange={this._onChange}
+                        onFocus={this._onFocus}
+                        onBlur={this._onBlur}
                         placeholder='Abracadabra!'/>
           {date}
         </div>
@@ -89,10 +104,19 @@ export default React.createClass({
   },
   _onTranslate(locale, value) {
     const translations = this.props.item.translations;
-    translations[locale]= {value, modifiedAt: new Date(), modifiedBy: {}}
+    translations[locale] = {value, modifiedAt: new Date(), modifiedBy: {}};
+    this.setState({changed: true, showSaveHint: true}); //on first change
   },
   _onDeleteClick() {
     ItemActions.deleteItem({id: this.props.item.id});
+  },
+  _onFocusField() {
+    if (this.state.changed) {
+      this.setState({showSaveHint: true});
+    }
+  },
+  _onBlurField() {
+    this.setState({showSaveHint: false});
   },
   render() {
     const item = this.props.item;
@@ -101,7 +125,11 @@ export default React.createClass({
       const translation = item.translations[locale] ? item.translations[locale] : {value: ''};
 
       return (
-          <TranslateField locale={locale} isKey={locale === item.keyLocale} translation={translation} onChange={this._onTranslate} />
+          <TranslateField locale={locale} isKey={locale === item.keyLocale}
+                          translation={translation}
+                          onChange={this._onTranslate}
+                          onFocus={this._onFocusField}
+                          onBlur={this._onBlurField} />
       )
     });
 
@@ -109,6 +137,7 @@ export default React.createClass({
       <div className={cx('item', this.props.className)} onKeyDown={this._onKeyDown}>
         {entries}
         <Icon className='md-delete item__delete md-2x' onClick={this._onDeleteClick}/>
+        {this.state.showSaveHint && <div className='item__save-hint'>Press <span className='item__save-hint-button'>Enter</span> to save</div>}
       </div>
     )
   }

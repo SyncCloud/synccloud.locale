@@ -17,7 +17,8 @@ export default React.createClass({
       {...other}
       style={{fontSize, lineHeight}}
       onInput={this.emitChange}
-      onBlur={this.emitChange}
+      onBlur={this._onBlur}
+      onFocus={this._onFocus}
       onKeyPress={this._onKeyPress}
       contentEditable={!readOnly}
       dangerouslySetInnerHTML={{__html: this.props.html}}></div>;
@@ -55,6 +56,19 @@ export default React.createClass({
   componentDidUpdate() {
     if ( this.props.html !== React.findDOMNode(this).innerHTML ) {
       React.findDOMNode(this).innerHTML = this.props.html;
+    }
+  },
+
+  _onBlur() {
+    this.emitChange();
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  },
+
+  _onFocus() {
+    if (this.props.onFocus) {
+      this.props.onFocus();
     }
   },
 
