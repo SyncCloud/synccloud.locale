@@ -50,7 +50,12 @@ let TranslateField = React.createClass({
     }
     return (
       <div className={cx({item__tr: true, item__tr_key_true: isKey})}>
-        <div className='item__tr-locale'>{locale}</div>
+        <div className='item__tr-locale'>
+          {
+            isKey && <Icon className='md-vpn-key item__tr-key'/>
+          }
+          {locale}
+        </div>
         <div className="item__tr-field">
               <Editable className="item__tr-input" readOnly={isKey} html={value} preventEnter={true} onChange={this._onChange}
                         placeholder='Abracadabra!'/>
