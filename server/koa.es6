@@ -16,7 +16,7 @@ export default async function initKoa({conn, config}) {
     app.use(require('koa-logger')())
   }
 
-  app.use(mount('/api', await require('./koa-api'))({config}));
+  app.use(mount('/api', await require('./koa-api')({config})));
   app.use(mount(await require('./koa-ui')({config, conn})));
 
   app.keys = config.keys;

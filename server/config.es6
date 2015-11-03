@@ -2,6 +2,7 @@ import path from 'path';
 import props from 'deep-property';
 import fs from 'fs';
 import {merge} from 'lodash';
+import assert from 'assert';
 
 const log = $log('synccloud-conf:config');
 const DEFAULT_CONFIG_PATH = path.join(__dirname, '../config.json');

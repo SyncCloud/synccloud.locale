@@ -1,6 +1,7 @@
-const cluster = require('cluster');
-const log = $log('synccloud:conf:master');
+import {keys, values, some} from 'lodash';
+import cluster from 'cluster';
 
+const log = $log('synccloud:conf:master');
 const WORKER_STARTUP_TIMEOUT = 10000;
 
 (async function initMaster(){
@@ -11,6 +12,19 @@ const WORKER_STARTUP_TIMEOUT = 10000;
     for (var i = 0; i < conf.concurrency; i++) {
       fork();
     }
+
+
+    let clusterStartInterval = setInterval(() => {
+      if (keys(cluster.workers).length == conf.concurrency) {
+        if (!some(values(cluster.workers), (w) => !w.ready)) {
+          clearInterval(clusterStartInterval);
+          log(`cluster started with ${conf.concurrency} workers`);
+          if (process.send) {
+            process.send('ready');
+          }
+        }
+      }
+    }, 500);
 
     cluster.on('disconnect', onExit);
 
@@ -29,6 +43,7 @@ const WORKER_STARTUP_TIMEOUT = 10000;
       worker.process.on('message', (msg) => {
         if (msg == 'ready') {
           log(`receive ready from worker ${worker.process.pid}`);
+          worker.ready = true;
           clearTimeout(readyTimeout);
         }
       });
@@ -45,7 +60,7 @@ const WORKER_STARTUP_TIMEOUT = 10000;
     }
 
     function terminate() {
-      console.log(arguments);
+
       if (terminating)
         return;
 
@@ -61,7 +76,7 @@ const WORKER_STARTUP_TIMEOUT = 10000;
       });
 
       var interval = setInterval(function() {
-        const count = _.keys(cluster.workers).length;
+        const count = keys(cluster.workers).length;
         if (!count) {
           clearInterval(interval);
           process.exit(0);

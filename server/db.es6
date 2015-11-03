@@ -14,7 +14,7 @@ export default async function initDatabase({mongo}) {
   const connectionString = `mongodb://${mongo.host}:${mongo.port}/${mongo.db}`;
 
   log(`initing database connection ${connectionString}`);
-  await new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     mongoose.connect(connectionString);
     mongoose.connection
       .on("error", function (err) {

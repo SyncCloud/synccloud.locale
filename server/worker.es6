@@ -70,7 +70,7 @@ const SHUTDOWN_TIMEOUT = __DEBUG ? 0 : 4000;
     // http://nodejs.org/api/timers.html#timers_unref
     killtimer.unref();
     server.close();
-    cluster.worker.disconnect();
+    //cluster.worker.disconnect();
   }
 
 })();

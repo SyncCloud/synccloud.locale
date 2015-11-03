@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cd /var/app && node --harmony server/index.js 2>&1 >> /var/log/nodejs.log

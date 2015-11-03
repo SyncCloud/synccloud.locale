@@ -36,7 +36,7 @@ export default async function initUI({conn, config}) {
       pretty: false,
       compileDebug: false
     }))
-    .use(mount('/api', require('./routes/api').routes()))
+    .use(mount('/api', await require('./routes/api')({config})))
     .use(await require('./routes/ui')({config}))
     .use(require('./middlewares/react'));
 }

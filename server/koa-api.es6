@@ -8,5 +8,5 @@ export default async function initApi({config}) {
     .use(responseTime())
     .use(basicAuth)
     .use(bodyParser())
-    .use(require('./routes/api')({config}));
+    .use(await require('./routes/api')({config}));
 }

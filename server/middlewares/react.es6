@@ -1,12 +1,13 @@
 import React from 'react';
 import Router from 'react-router';
-import routes from 'routes';
+import routes from '../../app/routes';
 import fs from 'fs';
 import path from 'path';
-import alt from 'utils/alt';
+import alt from '../../app/utils/alt';
 import iso from 'iso';
 import ItemModel from '../models/item';
-import debug from 'debug';
+
+const log = $log('synccloud-locale:middleware:react');
 
 export default function *react() {
   const handler = yield $q((resolve) => {
@@ -40,6 +41,5 @@ export default function *react() {
     assets = require('../webpack-stats.json');
   }
 
-  debug('dev')('return html content');
   this.render('main', {html, assets});
 }

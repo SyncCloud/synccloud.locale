@@ -4,7 +4,7 @@ process.env.NODE_PATH = 'app';
 require('module').Module._initPaths();
 
 require('../common/globals');
-require('./globals');
+require('../server/globals');
 
 require('babel-core/register');
 

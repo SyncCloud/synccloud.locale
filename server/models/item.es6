@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import debug from 'debug';
 import ActivityModel from './activity';
 import co from 'co';
-import config from '../config';
 
 const log = debug('synccloud:locale:model:item');
 const ItemSchema = new mongoose.Schema({
@@ -72,12 +71,12 @@ ItemSchema.pre('save', function (next) {
   });
 });
 
-ItemSchema.methods.updateTranslations = function*(user, translations) {
+ItemSchema.methods.updateTranslations = function*({user, translations, locales}) {
   const now = new Date();
   log('update translations for %s %j', this.key, translations);
   var tr = {};
   //копируем все в новый объект с новыми значениями ключей, иначе монго не сохраняет это поле
-  for (let locale of config.locales) {
+  for (let locale of locales) {
     if (locale === this.keyLocale) {
       tr[locale] = _.clone(this.translations[locale]);
     }

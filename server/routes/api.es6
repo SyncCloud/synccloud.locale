@@ -79,7 +79,7 @@ export default async function initApiRoutes({config}) {
     }
 
     log('updating %s with %o', item.key, this.request.body);
-    item = yield item.updateTranslations(this.user, _.pick(this.request.body, config.locales));
+    item = yield item.updateTranslations({user: this.user, translations: _.pick(this.request.body, config.locales), locales: config.locales});
     this.body = item.toJSON();
   }
 }
