@@ -1,0 +1,12 @@
+{
+  "mongo": {
+    "host": "192.168.99.100"
+  },
+  "auth": {
+    "backend": "synccloud.com"
+  },
+  "locales": [
+    "en",
+    "ru"
+  ]
+}

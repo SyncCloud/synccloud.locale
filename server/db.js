@@ -1,11 +1,6 @@
-'use strict';
-import config from './config';
 import mongoose from 'mongoose';
-import path from 'path';
-import fs from 'fs';
-import debug from 'debug';
 
-const log = debug('synccloud:locale:config:db');
+const log = $log('synccloud:locale:config:db');
 
 mongoose.Model.findById = function (id, ...args) {
   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -15,15 +10,20 @@ mongoose.Model.findById = function (id, ...args) {
   }
 };
 
-export default $q(function (resolve, reject) {
-  mongoose.connect(config.mongo);
-  mongoose.connection
-    .on("error", function (err) {
-      log('failed to connect to MongoDB using %s', config.mongo);
-      reject(err);
-    })
-    .on('connected', function () {
-      log('connected to MongoDB using %s', config.mongo);
-      resolve(mongoose.connection);
-    });
-});
+export default async function initDatabase({mongo}) {
+  const connectionString = `mongodb://${mongo.host}:${mongo.port}/${mongo.db}`;
+
+  log(`initing database connection ${connectionString}`);
+  await new Promise((resolve, reject) => {
+    mongoose.connect(connectionString);
+    mongoose.connection
+      .on("error", function (err) {
+        log(`failed to connect to MongoDB using ${connectionString}`);
+        reject(err);
+      })
+      .on('connected', function () {
+        log(`connected to MongoDB using ${connectionString}`);
+        resolve(mongoose.connection);
+      });
+  })
+}

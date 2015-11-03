@@ -1,10 +1,11 @@
 {
-  "name": "synccloud-locale",
+  "name": "synccloud.locale",
   "version": "1.1.0",
   "description": "Localization managment for multiple projects",
   "main": "index.js",
   "scripts": {
     "dev": "node --harmony ./webpack/dev-server.js",
+    "test": "./node_modules/.bin/mocha $(find test -name '*.es6')",
     "build": "./node_modules/.bin/webpack --progress --stats --config ./webpack/prod.config.js"
   },
   "author": "Nick Delitski",
@@ -17,6 +18,7 @@
     "bluebird": "^2.9.25",
     "co": "^4.5.4",
     "debug": "^2.2.0",
+    "deep-property": "^1.1.0",
     "iso": "^4.1.0",
     "koa": "^0.20.0",
     "koa-basic-auth": "^1.1.2",
@@ -35,7 +37,6 @@
     "lodash": "^3.8.0",
     "moment": "^2.10.3",
     "mongoose": "^4.0.3",
-    "nconf": "^0.7.1",
     "passport-local": "^1.0.0",
     "react": "^0.13.3",
     "react-bootstrap": "^0.22.4",

@@ -1,7 +1,7 @@
 import passport from 'koa-passport';
 import {Strategy as LocalStrategy} from 'passport-local';
-import auth from '../auth';
-import UserModel from '../models/user';
+import {SynccloudAuthentication} from './auth';
+import UserModel from './models/user';
 
 passport.serializeUser(function(userData, done) {
   UserModel.findOne({login: userData.login})
@@ -26,7 +26,10 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new LocalStrategy(function(username, password, done) {
-    auth.login(username, password)
+  (async function() {
+    const {auth} = await require('../config');
+    new SynccloudAuthentication({backend: auth.backend, authCookie: auth.cookieName})
+      .login(username, password)
       .then((user) => {
         if (user) {
           done(null, {
@@ -39,6 +42,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
         }
       })
       .catch(done);
+  })();
 }));
 
 export default passport;

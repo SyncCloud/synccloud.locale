@@ -1,5 +1,3 @@
-'use strict';
-
 // Tell `require` calls to look into `/app` also
 // it will avoid `../../../../../` require strings
 process.env.NODE_PATH = 'app';
@@ -8,14 +6,12 @@ require('module').Module._initPaths();
 require('../common/globals');
 require('./globals');
 
-// Install `babel` hook for ES6
-require('babel-core/register')({
-  stage: 1
-});
+require('babel-core/register');
 
-var co = require('co');
+var cluster = require('cluster');
 
-module.exports = $q.props({
-  http: co(require('./koa')),
-  mongo: co(require('./db'))
-});
+if (cluster.isMaster) {
+  require('../server/master');
+} else {
+  require('../server/worker');
+}

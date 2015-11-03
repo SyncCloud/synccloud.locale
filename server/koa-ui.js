@@ -9,24 +9,20 @@ import jade from 'koa-jade';
 import session from 'koa-generic-session';
 import MongoStore from 'koa-generic-session-mongo';
 import bodyParser from 'koa-bodyparser';
-import config from './config/index';
-import passport from './config/passport';
+import passport from './passport';
 import favicon from 'koa-favicon';
 
-const app = koa();
+export default async function initUI({conn, config}) {
+  const app = koa();
 
-app.keys = config.keys;
+  app.keys = config.keys;
 
-if (__DEBUG) {
-  var webpackConfig: Object = require('./../webpack/dev.config');
-  app.use(mount('/dist', require('koa-proxy')({ host: `http://localhost:${webpackConfig.server.port}` })));
-} else {
-  app.use(mount('/assets', staticCache(path.join(__dirname, '../dist'), {maxAge: 86400000, gzip: true})))
-}
-
-export default function* () {
-  //we need initialize db before mongo store
-  const conn = yield require('./db');
+  if (__DEBUG) {
+    var webpackConfig: Object = require('./../webpack/dev.config');
+    app.use(mount('/dist', require('koa-proxy')({ host: `http://localhost:${webpackConfig.server.port}` })));
+  } else {
+    app.use(mount('/assets', staticCache(path.join(__dirname, '../dist'), {maxAge: 86400000, gzip: true})))
+  }
 
   return app
     .use(session({store: new MongoStore({db: conn.db})}))
@@ -41,6 +37,6 @@ export default function* () {
       compileDebug: false
     }))
     .use(mount('/api', require('./routes/api').routes()))
-    .use(require('./routes/ui').routes())
+    .use(await require('./routes/ui')({config}))
     .use(require('./middlewares/react'));
 }

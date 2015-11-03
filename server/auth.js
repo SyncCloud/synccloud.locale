@@ -1,32 +1,54 @@
 import co from 'co';
 import $url from 'url';
+import assert from 'assert';
 
-const API_URL = 'https://synccloud.com/';
-const AUTH_COOKIE = '.ASPXAUTH';
+export class AuthenticationBase {
+  async login() {
+    throw new Error('not implemented');
+  }
+  async echo() {
+    throw new Error('not implemented');
+  }
+}
 
-export default {
-  login: co.wrap(function* (login, password) {
-    const [{statusCode, headers}, body] = yield $request({
+export class SynccloudAuthentication extends AuthenticationBase {
+  constructor({backend, authCookie}) {
+    super();
+    assert(backend, '`backend` is missing');
+    assert(authCookie, '`authCookie` is missing');
+    this.backend = backend;
+    this.authCookie = authCookie;
+  }
+
+  async login(login, password) {
+    assert(login, '`login` is missing');
+    assert(password, '`password` is missing');
+
+    const [{statusCode, headers}, body] = await $request({
       method: 'POST',
       json: true,
-      url: $url.resolve(API_URL, '/login'),
+      url: this._backendPath('login'),
       body: {
         loginOrEmail: login,
         password
       }
     });
+
     if (statusCode == 200) {
       if (!body.errorCode && body.result == 'ok') {
-        const token = headers['set-cookie'].join(' ').match(new RegExp(`${AUTH_COOKIE}=(\\w+)`))[1];
-        return yield this.echo(token);
+        const token = headers['set-cookie'].join(' ').match(new RegExp(`${this.authCookie}=(\\w+)`))[1];
+        return await this.echo(token);
       }
+    } else {
+      throw new Error(`Login failed for ${login}:${password}`);
     }
-  }),
-  echo: co.wrap(function* (token) {
-    const [{statusCode}, body] = yield $request({
-      url: $url.resolve(API_URL, '/echo'),
+  }
+  async echo(token) {
+    assert(token, '`token` is missing');
+    const [{statusCode}, body] = await $request({
+      url: this._backendPath('echo'),
       headers: {
-        Cookie: `${AUTH_COOKIE}=${token}`
+        Cookie: `${this.authCookie}=${token}`
       },
       json: true
     });
@@ -34,5 +56,11 @@ export default {
     if (statusCode == 200 && body.result == 'ok') {
       return body.data;
     }
-  })
+  }
+
+  _backendPath(...parts) {
+    return $url.resolve.apply($url, [this.backend].concat(parts));
+  }
 }
+
+
