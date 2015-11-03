@@ -8,4 +8,5 @@ dist
 .sass-cache
 .env
 build
+config.json
 server/webpack-stats.json

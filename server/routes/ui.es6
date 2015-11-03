@@ -1,7 +1,7 @@
-import ItemModel from '../models/item';
-import ActivityModel from '../models/activity';
 import passport from 'koa-passport';
 
+const ItemModel = Waterline.models.item;
+const ActivityModel = Waterline.models.activity;
 const log = $log('synccloud:locale:http:ui');
 
 export default async function initUIRoutes({config}) {

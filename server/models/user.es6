@@ -1,26 +1,22 @@
-'use strict';
-import mongoose from 'mongoose';
-import debug from 'debug';
+const log = $log('synccloud:locale:model:user');
 
-const log = debug('synccloud:locale:model:user');
-
-let UserSchema = new mongoose.Schema({
-  createdAt: Date,
-  login: {
-    unique: true,
-    index: true,
-    type: String
+export default {
+  tableName: 'user',
+  schema: true,
+  attributes: {
+    createdAt: Date,
+    login: {
+      unique: true,
+      index: true,
+      type: String
+    },
+    token: String,
+    name: String,
+    avatarUrl: String
   },
-  token: String,
-  name: String,
-  avatarUrl: String
-});
-
-UserSchema.pre('save', function (next) {
-  this.createdAt = new Date();
-  log('save %o', this);
-  next();
-});
-
-
-export default mongoose.model('user', UserSchema);
+  beforeCreate(values, next) {
+    values.createdAt = new Date();
+    log('save %o', values);
+    next();
+  }
+}

@@ -5,8 +5,8 @@ import fs from 'fs';
 import path from 'path';
 import alt from '../../app/utils/alt';
 import iso from 'iso';
-import ItemModel from '../models/item';
 
+const ItemModel = Waterline.models.item;
 const log = $log('synccloud-locale:middleware:react');
 
 export default function *react() {

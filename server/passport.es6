@@ -1,7 +1,8 @@
 import passport from 'koa-passport';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {SynccloudAuthentication} from './auth';
-import UserModel from './models/user';
+
+const UserModel = Waterline.models.user;
 
 passport.serializeUser(function(userData, done) {
   UserModel.findOne({login: userData.login})
